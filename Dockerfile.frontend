@@ -1,0 +1,9 @@
+FROM node:lts-fermium
+
+WORKDIR /src
+
+COPY frontend /src/
+
+RUN npm install
+
+EXPOSE 8080

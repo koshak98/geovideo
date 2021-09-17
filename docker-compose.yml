@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  web:
+    build:
+      dockerfile: "Dockerfile"
+      context: "."
+    image: "web"
+    ports:
+      - 1231:8000
+    environment:
+      - PYTHONPATH=/src
+    command: "uvicorn --host 0.0.0.0  web.server:api"
+
+  tgbot:
+    build:
+      dockerfile: "Dockerfile"
+      context: "."
+    image: "tgbot"
+    ports:
+      - 8443:8443
+    environment:
+      - PYTHONPATH=/src
+    command: "uvicorn --host 0.0.0.0 --port 8443 --ssl-keyfile ./bot/src/webhook_pkey.pem --ssl-certfile ./bot/src/webhook_cert.pem bot.src.tgbot:api"
+
+  mongo:
+    image: mongo:3.6.20-xenial
+    volumes:
+      - ./data:/data/db
+
+  frontend:
+    build:
+      dockerfile: "Dockerfile.frontend"
+      context: "."
+    image: "frontend"
+    ports:
+      - 1232:8080
+    command: "npm start"
