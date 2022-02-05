@@ -2,7 +2,7 @@
 
 ## Deployment
 
-docker-compose up --build 
+`docker-compose up --build`
 
 localhost:8000/docs - swagger 
 
